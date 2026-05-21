@@ -122,7 +122,30 @@
         <div class="popup__content popup__content_content_info">
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Статистика пользователей</h3>
-          <ul class="popup__stats-list"></ul>
+          <dl class="popup__info">
+            <div class="popup__info-item">
+              <dt class="popup__info-term">Всего карточек:</dt>
+              <dd class="popup__info-description popup__stats-total-cards"></dd>
+            </div>
+            <div class="popup__info-item">
+              <dt class="popup__info-term">Первая создана:</dt>
+              <dd class="popup__info-description popup__stats-first-date"></dd>
+            </div>
+            <div class="popup__info-item">
+              <dt class="popup__info-term">Последняя создана:</dt>
+              <dd class="popup__info-description popup__stats-last-date"></dd>
+            </div>
+            <div class="popup__info-item">
+              <dt class="popup__info-term">Всего пользователей:</dt>
+              <dd class="popup__info-description popup__stats-total-users"></dd>
+            </div>
+            <div class="popup__info-item">
+              <dt class="popup__info-term">Максимум карточек от одного:</dt>
+              <dd class="popup__info-description popup__stats-max-cards"></dd>
+            </div>
+          </dl>
+          <p class="popup__text"><strong>Все пользователи:</strong></p>
+          <ul class="popup__list popup__stats-users-list"></ul>
         </div>
       </div>
     </div>
@@ -145,24 +168,5 @@
       </li>
     </template>
 
-    <template id="tpl-user-stat">
-      <li class="popup__stats-item">
-        <span class="popup__stats-name"></span>
-        <dl class="popup__stats-data">
-          <div class="popup__stats-row">
-            <dt>Карточек:</dt>
-            <dd class="popup__stats-cards"></dd>
-          </div>
-          <div class="popup__stats-row">
-            <dt>Лайков:</dt>
-            <dd class="popup__stats-likes"></dd>
-          </div>
-          <div class="popup__stats-row">
-            <dt>Последняя:</dt>
-            <dd class="popup__stats-date"></dd>
-          </div>
-        </dl>
-      </li>
-    </template>
   </body>
 </html>

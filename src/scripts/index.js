@@ -36,7 +36,12 @@ const avatarInput = avatarForm.querySelector('.popup__input');
 const avatarSaveBtn = avatarPopup.querySelector('.popup__button');
 
 const statsPopup = document.querySelector('.popup_type_stats');
-const statsListEl = statsPopup.querySelector('.popup__stats-list');
+const statsTotalCards = statsPopup.querySelector('.popup__stats-total-cards');
+const statsFirstDate = statsPopup.querySelector('.popup__stats-first-date');
+const statsLastDate = statsPopup.querySelector('.popup__stats-last-date');
+const statsTotalUsers = statsPopup.querySelector('.popup__stats-total-users');
+const statsMaxCards = statsPopup.querySelector('.popup__stats-max-cards');
+const statsUsersList = statsPopup.querySelector('.popup__stats-users-list');
 
 const profileTitle = document.querySelector('.profile__title');
 const profileAbout = document.querySelector('.profile__description');
@@ -45,39 +50,40 @@ const profileAvatar = document.querySelector('.profile__image');
 const toDate = (iso) =>
   new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 
-const buildUserStats = (cards) => {
-  const map = {};
+const buildStats = (cards) => {
+  const userMap = {};
   cards.forEach((card) => {
     const id = card.owner._id;
-    if (!map[id]) {
-      map[id] = { name: card.owner.name, cardCount: 0, totalLikes: 0, lastDate: card.createdAt };
-    }
-    map[id].cardCount += 1;
-    map[id].totalLikes += card.likes.length;
-    if (new Date(card.createdAt) > new Date(map[id].lastDate)) {
-      map[id].lastDate = card.createdAt;
-    }
+    if (!userMap[id]) userMap[id] = { name: card.owner.name, count: 0 };
+    userMap[id].count += 1;
   });
-  return Object.values(map).sort((a, b) => b.cardCount - a.cardCount);
-};
-
-const makeUserStatItem = ({ name, cardCount, totalLikes, lastDate }) => {
-  const el = document
-    .getElementById('tpl-user-stat')
-    .content.querySelector('.popup__stats-item')
-    .cloneNode(true);
-  el.querySelector('.popup__stats-name').textContent = name;
-  el.querySelector('.popup__stats-cards').textContent = cardCount;
-  el.querySelector('.popup__stats-likes').textContent = totalLikes;
-  el.querySelector('.popup__stats-date').textContent = toDate(lastDate);
-  return el;
+  const dates = cards.map((c) => new Date(c.createdAt));
+  return {
+    totalCards: cards.length,
+    firstCreated: new Date(Math.min(...dates)),
+    lastCreated: new Date(Math.max(...dates)),
+    totalUsers: Object.keys(userMap).length,
+    maxCards: Math.max(...Object.values(userMap).map((u) => u.count)),
+    users: Object.values(userMap).map((u) => u.name),
+  };
 };
 
 const handleLogoClick = () => {
   getCards()
     .then((cards) => {
-      statsListEl.innerHTML = '';
-      buildUserStats(cards).forEach((user) => statsListEl.append(makeUserStatItem(user)));
+      const s = buildStats(cards);
+      statsTotalCards.textContent = s.totalCards;
+      statsFirstDate.textContent = toDate(s.firstCreated.toISOString());
+      statsLastDate.textContent = toDate(s.lastCreated.toISOString());
+      statsTotalUsers.textContent = s.totalUsers;
+      statsMaxCards.textContent = s.maxCards;
+      statsUsersList.innerHTML = '';
+      s.users.forEach((name) => {
+        const li = document.createElement('li');
+        li.className = 'popup__list-item popup__list-item_type_badge';
+        li.textContent = name;
+        statsUsersList.append(li);
+      });
       openPopup(statsPopup);
     })
     .catch(console.error);
