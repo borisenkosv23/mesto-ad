@@ -51,6 +51,5 @@ export const clearValidation = (form, cfg) => {
   const inputs = [...form.querySelectorAll(cfg.inputSelector)];
   const btn = form.querySelector(cfg.submitButtonSelector);
   inputs.forEach((i) => hideError(i, cfg));
-  btn.disabled = true;
-  btn.classList.add(cfg.inactiveButtonClass);
+  updateButton(inputs, btn, cfg);
 };
