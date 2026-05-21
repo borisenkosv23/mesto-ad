@@ -2,7 +2,7 @@
 
 Проектная работа курса «Яндекс Практикум».
 
-**Ссылка на проект:** https://nrabov0-svg.github.io/mesto-ad/
+**Ссылка на проект:** https://borisenkosv23.github.io/mesto-ad/
 
 ## Запуск
 
